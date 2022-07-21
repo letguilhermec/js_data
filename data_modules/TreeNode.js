@@ -15,11 +15,7 @@ class TreeNode {
   removeChild(childToRemove) {
     const length = this.children.length
     this.children = this.children.filter(child => {
-      if (childToRemove instanceof TreeNode) {
-        return childToRemove !== child
-      } else {
-        return childToRemove !== child.data
-      }
+      childToRemove instanceof TreeNode ? childToRemove !== child : childToRemove !== child.data
     })
     if (length === this.children.length) {
       this.children.forEach(child => child.removeChild(childToRemove))
