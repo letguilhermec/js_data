@@ -4,6 +4,20 @@ class MinHeap {
     this.size = 0
   }
 
+  popMin() {
+    if (this.size === 0) {
+      return null
+    }
+    console.log(`\n.. Swap ${this.heap[1]} with last element ${this.heap[this.size]}`)
+    this.swap(1, this.size)
+    const min = this.heap.pop()
+    this.size--
+    console.log(`.. Removed ${min} from heap`)
+    console.log('..', this.heap)
+    this.heapify()
+    return min
+  }
+
   add(value) {
     console.log(`..adding ${value}`)
     this.heap.push(value)
@@ -15,11 +29,45 @@ class MinHeap {
   bubbleUp() {
     let current = this.size
     while (current > 1 && this.heap[current] < this.heap[getParent(current)]) {
-      console.log('..', this.heap)
-      console.log(`.. swapping index ${current} with ${getParent(current)}`)
+      console.log(`.. swap ${this.heap[current]} with parent ${this.heap[getParent(current)]}`)
       this.swap(current, getParent(current))
+      console.log('..', this.heap)
       current = getParent(current)
     }
+  }
+
+  heapify() {
+    console.log('Heapify')
+    let current = 1
+    let leftChild = getLeft(current)
+    let rightChild = getRight(current)
+
+    while (this.canSwap(current, leftChild, rightChild)) {
+      if (this.exists(leftChild) && this.exists(rightChild)) {
+        if (this.heap[leftChild] < this.heap[rightChild]) {
+          this.swap(current, leftChild)
+          current = leftChild
+        } else {
+          this.swap(current, rightChild)
+          current = rightChild
+        }
+      } else {
+        this.swap(current, rightChild)
+        current = rightChild
+      }
+      leftChild = getLeft(current)
+      rightChild = getRight(current)
+    }
+  }
+
+  exists(index) {
+    return index <= this.size
+  }
+
+  canSwap(current, leftChild, rightChild) {
+    return (
+      this.exists(leftChild) && this.heap[current] > this.heap[leftChild] || this.exists(rightChild) && this.heap[current] > this.heap[rightChild]
+    )
   }
 
   swap(a, b) {
