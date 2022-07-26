@@ -36,7 +36,7 @@ class TreeNode {
     this.children.forEach(child => child.depthFirstTraversal())
   }
 
-  breadthFistTraversal() {
+  breadthFirstTraversal() {
     let queue = [this]
     while (queue.length > 0) {
       const current = queue.shift()
